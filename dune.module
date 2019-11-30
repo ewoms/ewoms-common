@@ -1,0 +1,8 @@
+Module: ewoms-common
+Description: Common infrastructure used throughout eWoms
+Version: 2020.04-pre
+Label: 2020.04-pre
+Maintainer: ewoms@ewoms.org
+MaintainerName: The eWoms Project
+Url: https://ewoms.org
+Depends: dune-common (>= 2.5)
