@@ -286,14 +286,17 @@ function(ewoms_add_test TestName)
 
   else() # test is skipped
 
-    # the following causes the test to appear as 'skipped' in the
-    # CDash dashboard. it this is removed, the test is just silently
-    # ignored.
-    if (NOT CURTEST_ONLY_COMPILE AND ADD_DISABLED_CTESTS)
-      add_test(${TestName}  ${CURTEST_DRIVER} --skip)
-
-      # return code 77 should be interpreted as skipped test
-      set_tests_properties(${TestName} PROPERTIES SKIP_RETURN_CODE 77)
+    if (NOT "${CURTEST_DRIVER}" STREQUAL "")
+      # the following causes the test to appear as 'skipped' in the
+      # CDash dashboard. it this is removed, the test is just silently
+      # ignored. these tests only appear if a dedicated test driver is
+      # specified. this driver is assumed to accept the --skip option.
+      if (NOT CURTEST_ONLY_COMPILE AND ADD_DISABLED_CTESTS)
+        add_test(${TestName}  ${CURTEST_DRIVER} --skip)
+        
+        # return code 77 should be interpreted as skipped test
+        set_tests_properties(${TestName} PROPERTIES SKIP_RETURN_CODE 77)
+      endif()
     endif()
 
   endif()
