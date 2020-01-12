@@ -27,6 +27,8 @@
 #ifndef EWOMS_MPI_BUFFER_HH
 #define EWOMS_MPI_BUFFER_HH
 
+#include <ewoms/common/unused.hh>
+
 #if HAVE_MPI
 #include <mpi.h>
 #endif
