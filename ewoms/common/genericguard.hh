@@ -79,6 +79,19 @@ public:
     bool enabled() const
     { return isEnabled_; }
 
+    /*!
+     * \brief Trigger the guard as if the guard object was destroyed.
+     *
+     * After calling this method, the guard is disabled.
+     */
+    void trigger()
+    {
+        if (isEnabled_)
+            callback_();
+
+        isEnabled_ = false;
+    }
+
 private:
     Callback& callback_;
     bool isEnabled_;
