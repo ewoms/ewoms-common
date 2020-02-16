@@ -18,11 +18,12 @@
 #ifndef EWOMS_FILESYSTEM_HH
 #define EWOMS_FILESYSTEM_HH
 
-#if __cplusplus < 201703L || \
-    (defined(__GNUC__) && __GNUC__ < 8)
+#if HAVE_STD_FILESYSTEM
+#include <filesystem>
+#elif HAVE_STD_EXPERIMENTAL_FILESYSTEM
 #include <experimental/filesystem>
 #else
-#include <filesystem>
+#error "Either std::filesystem or std::experimental::filesystem is required to use this header file"
 #endif
 
 #include <random>
@@ -31,11 +32,10 @@
 
 namespace Ewoms
 {
-#if __cplusplus < 201703L || \
-    (defined(__GNUC__) && __GNUC__ < 8)
-    namespace filesystem = std::experimental::filesystem;
-#else
+#if HAVE_STD_FILESYSTEM
     namespace filesystem = std::filesystem;
+#elif HAVE_STD_EXPERIMENTAL_FILESYSTEM
+    namespace filesystem = std::experimental::filesystem;
 #endif
 
     // A poor man's filesystem::unique_path
