@@ -20,6 +20,7 @@ check_cxx_source_compiles("
 
 int main(void){
    std::filesystem::path foo;
+   std::filesystem::path bar = foo.parent_path() / foo.stem();
    return 0;
 }" STD_FILESYSTEM_FOUND_PLAIN)
 
@@ -41,6 +42,7 @@ else()
 
 int main(void){
     std::filesystem::path foo;
+    std::filesystem::path bar = foo.parent_path() / foo.stem();
     return 0;
 }" STD_FILESYSTEM_FOUND_LIB)
 
@@ -62,6 +64,7 @@ int main(void){
 
 int main(void){
     std::experimental::filesystem::path foo;
+    std::experimental::filesystem::path bar = foo.parent_path() / foo.stem();
     return 0;
 }" STD_FILESYSTEM_FOUND_EXPERIMENTAL)
 
@@ -83,6 +86,7 @@ int main(void){
 
 int main(void){
     std::experimental::filesystem::path foo;
+    std::experimental::filesystem::path bar = foo.parent_path() / foo.stem();
     return 0;
 }" STD_FILESYSTEM_FOUND_EXPERIMENTAL2)
 
