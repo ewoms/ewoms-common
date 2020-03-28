@@ -15,6 +15,9 @@ include(EwomsMacros)
 # start a ewoms project with the information from dune.module
 ewoms_project()
 
+# either std::any or std::experimental::any needs to be supported
+find_package(StdAny REQUIRED)
+
 # we want all features detected by the build system to be enabled,
 # thank you!
 dune_enable_all_packages()
