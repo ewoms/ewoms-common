@@ -33,21 +33,45 @@
 namespace Ewoms
 {
 #if HAVE_STD_ANY
-    using any = std::any;
-    template <class T>
-    auto any_cast(any& a) -> decltype(std::any_cast<T>(a))
-    { return std::any_cast<T>(a); }
-    template <class T>
-    auto any_cast(const any& a) -> decltype(std::any_cast<T>(a))
-    { return std::any_cast<T>(a); }
+
+using any = std::any;
+
+template <class T>
+T any_cast(const any& a)
+{ return std::any_cast<T>(a); }
+
+template <class T>
+T any_cast(any& a)
+{ return std::any_cast<T>(a); }
+
+template <class T>
+const T* any_cast(const any* a)
+{ return std::any_cast<T>(a); }
+
+template <class T>
+T* any_cast(any* a)
+{ return std::any_cast<T>(a); }
+
 #elif HAVE_STD_EXPERIMENTAL_ANY
-    using any = std::experimental::any;
-    template <class T>
-    auto any_cast(any& a) -> decltype(std::experimental::any_cast<T>(a))
-    { return std::experimental::any_cast<T>(a); }
-    template <class T>
-    auto any_cast(const any& a) -> decltype(std::experimental::any_cast<T>(a))
-    { return std::experimental::any_cast<T>(a); }
+
+using any = std::experimental::any;
+
+template <class T>
+T any_cast(const any& a)
+{ return std::experimental::any_cast<T>(a); }
+
+template <class T>
+T any_cast(any& a)
+{ return std::experimental::any_cast<T>(a); }
+
+template <class T>
+const T* any_cast(const any* a)
+{ return std::experimental::any_cast<T>(a); }
+
+template <class T>
+T* any_cast(any* a)
+{ return std::experimental::any_cast<T>(a); }
+
 #endif
 } // namespace Ewoms
 
