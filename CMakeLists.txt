@@ -10,7 +10,7 @@ list(INSERT CMAKE_MODULE_PATH 0 "${ewoms-common_MODULE_PATH}")
 list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 # include the additional generic eWoms cmake macros
-include(EwomsMacros)
+include(EwomsMacros NO_POLICY_SCOPE)
 
 # start a ewoms project with the information from dune.module
 ewoms_project()
