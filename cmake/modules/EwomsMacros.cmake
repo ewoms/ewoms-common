@@ -51,7 +51,6 @@ macro(ewoms_project)
   dune_project()
 
   # make sure we have at least C++14
-  include(CheckCXXFeatures)
   dune_require_cxx_standard(VERSION 14)
 
   # add "all_tests", "all_applications" "test-suite" and "build_tests"
