@@ -94,6 +94,7 @@ public:
     //! copy other function evaluation
     Evaluation(const Evaluation& other) = default;
 
+
     // create an evaluation which represents a constant function
     //
     // i.e., f(x) = c. this implies an evaluation with the given value and all
