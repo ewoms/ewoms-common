@@ -47,7 +47,28 @@ int main(void){
     # std::experimental::any has been found
     set(STD_ANY_FOUND 1)
     set(HAVE_STD_EXPERIMENTAL_ANY 1)
+  else()
+    # std::any and std::experimental::any have not been found to be
+    # working. Check if we can use boost::any
+    cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_cxx_source_compiles("
+#include <boost/any.hpp>
+
+int main(void){
+    boost::any foo(int(4));
+    return 0;
+}" BOOST_ANY_FOUND)
+
+    cmake_pop_check_state()
+
+    if (BOOST_ANY_FOUND)
+      # boost::any has been found
+      set(STD_ANY_FOUND 1)
+      set(HAVE_BOOST_ANY 1)
+    endif()
   endif()
+
 endif()
 
 include(FindPackageHandleStandardArgs)

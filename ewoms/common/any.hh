@@ -22,8 +22,10 @@
 #include <any>
 #elif HAVE_STD_EXPERIMENTAL_ANY
 #include <experimental/any>
+#elif HAVE_BOOST_ANY
+#include <boost/any.hpp>
 #else
-#error "Either std::any or std::experimental::any is required to use this header file"
+#error "Either std::any, std::experimental::any or boost::any are required to use this header file"
 #endif
 
 #include <random>
@@ -71,6 +73,26 @@ const T* any_cast(const any* a)
 template <class T>
 T* any_cast(any* a)
 { return std::experimental::any_cast<T>(a); }
+
+#elif HAVE_BOOST_ANY
+
+using any = boost::any;
+
+template <class T>
+T any_cast(const any& a)
+{ return boost::any_cast<T>(a); }
+
+template <class T>
+T any_cast(any& a)
+{ return boost::any_cast<T>(a); }
+
+template <class T>
+const T* any_cast(const any* a)
+{ return boost::any_cast<T>(a); }
+
+template <class T>
+T* any_cast(any* a)
+{ return boost::any_cast<T>(a); }
 
 #endif
 } // namespace Ewoms
