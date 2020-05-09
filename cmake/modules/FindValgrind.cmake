@@ -1,26 +1,26 @@
 # Find Valgrind.
 #
 # This module defines:
-#  VALGRIND_INCLUDE_DIR, where to find valgrind/memcheck.h, etc.
-#  VALGRIND_PROGRAM, the valgrind executable.
-#  VALGRIND_FOUND, If false, do not try to use valgrind.
+#  Valgrind_INCLUDE_DIR, where to find valgrind/memcheck.h, etc.
+#  Valgrind_PROGRAM, the valgrind executable.
+#  Valgrind_FOUND, If false, do not try to use valgrind.
 #
 # If you have valgrind installed in a non-standard place, you can define
-# VALGRIND_ROOT to tell cmake where it is.
-if (VALGRIND_FOUND)
+# Valgrind_ROOT to tell cmake where it is.
+if (Valgrind_FOUND)
   return()
 endif()
 
-find_path(VALGRIND_INCLUDE_DIR valgrind/memcheck.h
-  HINTS ${VALGRIND_ROOT}/include)
+find_path(Valgrind_INCLUDE_DIR valgrind/memcheck.h
+  HINTS ${Valgrind_ROOT}/include)
 
-# if VALGRIND_ROOT is empty, we explicitly add /bin to the search
+# if Valgrind_ROOT is empty, we explicitly add /bin to the search
 # path, but this does not hurt...
-find_program(VALGRIND_PROGRAM NAMES valgrind
-  HINTS ${VALGRIND_ROOT}/bin)
+find_program(Valgrind_PROGRAM NAMES valgrind
+  HINTS ${Valgrind_ROOT}/bin)
 
-find_package_handle_standard_args(VALGRIND DEFAULT_MSG
-  VALGRIND_INCLUDE_DIR
-  VALGRIND_PROGRAM)
+find_package_handle_standard_args(Valgrind DEFAULT_MSG
+  Valgrind_INCLUDE_DIR
+  Valgrind_PROGRAM)
 
-mark_as_advanced(VALGRIND_ROOT VALGRIND_INCLUDE_DIR VALGRIND_PROGRAM)
+mark_as_advanced(Valgrind_ROOT Valgrind_INCLUDE_DIR Valgrind_PROGRAM)
