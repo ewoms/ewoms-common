@@ -426,8 +426,14 @@ endmacro()
 
 function(ewoms_recursive_add_internal_library LIBNAME)
   set(TMP2 "")
+
+  set(CD "")
+  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+    set(CD "CONFIGURE_DEPENDS")
+  endif()
+    
   foreach(DIR ${ARGN})
-    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" "${DIR}/*.cpp" "${DIR}/*.cc" "${DIR}/*.c")
+    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" ${CD} "${DIR}/*.cpp" "${DIR}/*.cc" "${DIR}/*.c")
     list(APPEND TMP2 ${TMP})
   endforeach()
 
@@ -436,9 +442,15 @@ endfunction()
 
 function(ewoms_recursive_add_library LIBNAME)
   set(TMP2 "")
+
+  set(CD "")
+  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+    set(CD "CONFIGURE_DEPENDS")
+  endif()
+
   foreach(ENTITY ${ARGN})
     if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${ENTITY}")
-      file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" "${ENTITY}/*.cpp" "${ENTITY}/*.cc" "${ENTITY}/*.c")
+      file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" ${CD} "${ENTITY}/*.cpp" "${ENTITY}/*.cc" "${ENTITY}/*.c")
       list(APPEND TMP2 ${TMP})
     elseif(EXISTS "${CMAKE_SOURCE_DIR}/${ENTITY}")
       list(APPEND TMP2 "${CMAKE_SOURCE_DIR}/${ENTITY}")
@@ -501,8 +513,13 @@ function(ewoms_add_headers_library_and_executables LIBNAME)
 endfunction()
 
 function(ewoms_recusive_copy_testdata)
+  set(CD "")
+  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+    set(CD "CONFIGURE_DEPENDS")
+  endif()
+
   foreach(PAT ${ARGN})
-    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" "${PAT}")
+    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" ${CD} "${PAT}")
 
     foreach(SOURCE_FILE ${TMP})
       get_filename_component(DIRNAME "${SOURCE_FILE}" DIRECTORY)
@@ -519,8 +536,13 @@ function(ewoms_recusive_copy_testdata)
 endfunction()
 
 function(ewoms_recusive_copy_testdata_to_builddir)
+  set(CD "")
+  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+    set(CD "CONFIGURE_DEPENDS")
+  endif()
+
   foreach(PAT ${ARGN})
-    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" "${PAT}")
+    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" ${CD} "${PAT}")
 
     foreach(SOURCE_FILE ${TMP})
       get_filename_component(DIRNAME "${SOURCE_FILE}" DIRECTORY)
@@ -537,8 +559,13 @@ function(ewoms_recusive_copy_testdata_to_builddir)
 endfunction()
 
 function(ewoms_recusive_export_all_headers)
+  set(CD "")
+  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+    set(CD "CONFIGURE_DEPENDS")
+  endif()
+
   foreach(DIR ${ARGN})
-    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" "${DIR}/*.hpp" "${DIR}/*.hh" "${DIR}/*.h")
+    file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" ${CD} "${DIR}/*.hpp" "${DIR}/*.hh" "${DIR}/*.h")
 
     foreach(HEADER ${TMP})
       get_filename_component(DIRNAME "${HEADER}" DIRECTORY)
@@ -548,7 +575,12 @@ function(ewoms_recusive_export_all_headers)
 endfunction()
 
 function(ewoms_export_cmake_modules)
-  file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" "cmake/*.cmake")
+  set(CD "")
+  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+    set(CD "CONFIGURE_DEPENDS")
+  endif()
+
+  file(GLOB_RECURSE TMP RELATIVE "${CMAKE_SOURCE_DIR}" ${CD} "cmake/*.cmake")
 
   foreach(CM_MOD ${TMP})
     get_filename_component(DIRNAME "${CM_MOD}" DIRECTORY)
