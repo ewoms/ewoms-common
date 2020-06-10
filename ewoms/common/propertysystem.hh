@@ -482,10 +482,10 @@ namespace Properties {
  * the '\c typename' keyword.
  */
 #define GET_PROP(TypeTag, PropTagName) \
-    ::Ewoms::Properties::GetProperty<TypeTag, PTAG(PropTagName)>::p
+    ::Ewoms::Properties::GetProperty_<TypeTag, PTAG(PropTagName)>
 //!\cond SKIP_THIS
 #define GET_PROP_(TypeTag, PropTag) \
-    ::Ewoms::Properties::GetProperty<TypeTag, PropTag>::p
+    ::Ewoms::Properties::GetProperty_<TypeTag, PropTag>
 //!\endcond
 
 /*!
@@ -497,10 +497,10 @@ namespace Properties {
  * have an attribute named \c value, this yields a compiler error.
  */
 #define GET_PROP_VALUE(TypeTag, PropTagName)                            \
-    ::Ewoms::Properties::GetProperty<TypeTag, PTAG(PropTagName)>::p::value
+    ::Ewoms::Properties::GetProperty_<TypeTag, PTAG(PropTagName)>::value
 //!\cond SKIP_THIS
 #define GET_PROP_VALUE_(TypeTag, PropTag)                               \
-    ::Ewoms::Properties::GetProperty<TypeTag, PropTag>::p::value
+    ::Ewoms::Properties::GetProperty_<TypeTag, PropTag>::value
 //!\endcond
 
 /*!
@@ -514,10 +514,10 @@ namespace Properties {
  * the \c typename keyword.
  */
 #define GET_PROP_TYPE(TypeTag, PropTagName) \
-    ::Ewoms::Properties::GetProperty<TypeTag, PTAG(PropTagName)>::p::type
+    ::Ewoms::Properties::GetPropertyType_<TypeTag, PTAG(PropTagName)>
 //!\cond SKIP_THIS
 #define GET_PROP_TYPE_(TypeTag, PropTag) \
-    ::Ewoms::Properties::GetProperty<TypeTag, PropTag>::p::type
+    ::Ewoms::Properties::GetPropertyType_<TypeTag, PropTag>
 //!\endcond
 
 #if !defined NO_PROPERTY_INTROSPECTION
@@ -623,6 +623,12 @@ private:
 
 template <class TypeTag, class PropertyTag>
 struct GetProperty;
+
+template <class TypeTag, class PropertyTag>
+using GetProperty_ = typename GetProperty<TypeTag, PropertyTag>::p;
+
+template <class TypeTag, class PropertyTag>
+using GetPropertyType_ = typename GetProperty_<TypeTag, PropertyTag>::type;
 
 class TypeTagRegistry
 {
