@@ -60,10 +60,12 @@
 
 //! \cond SKIP_THIS
 
-namespace Ewoms {
-namespace Properties {
+namespace __EwomsProperties__ {
 
 #define EWOMS_GET_HEAD_(Arg1, ...) Arg1
+
+#define EWOMS_PRINT_PROPERTIES(TypeTag, ...)            \
+    ::__EwomsProperties__::printValues<TypeTag>(__VA_ARGS__);
 
 #if !defined NO_PROPERTY_INTROSPECTION
 
@@ -131,13 +133,13 @@ namespace Properties {
  * \ingroup Properties
  * \brief Indicates that property definitions follow
  */
-#define BEGIN_PROPERTIES namespace Ewoms { namespace Properties {
+#define BEGIN_PROPERTIES namespace __EwomsProperties__ {
 
 /*!
  * \ingroup Properties
  * \brief Indicates that all properties have been specified (for now)
  */
-#define END_PROPERTIES }}
+#define END_PROPERTIES }
 
 /*!
  * \ingroup Properties
@@ -146,7 +148,7 @@ namespace Properties {
  * The main advantage of the type of a \c TypeTag is that it can be
  * passed as a template argument.
  */
-#define TTAG(TypeTagName) Ewoms::Properties::TTag::TypeTagName
+#define TTAG(TypeTagName) __EwomsProperties__::TTag::TypeTagName
 
 /*!
  * \ingroup Properties
@@ -155,7 +157,7 @@ namespace Properties {
  * Again property type names can be passed as template argument. This
  * is rarely needed, though.
  */
-#define PTAG(PropTagName) Ewoms::Properties::PTag::PropTagName
+#define PTAG(PropTagName) __EwomsProperties__::PTag::PropTagName
 
 /*!
  * \ingroup Properties
@@ -226,7 +228,7 @@ namespace Properties {
     template<>                                                      \
     struct Splices<TTAG(TypeTagName)>                               \
     {                                                               \
-        typedef RevertedTuple<__VA_ARGS__>::type tuple;             \
+        using tuple = RevertedTuple<__VA_ARGS__>::type;             \
     };                                                              \
     SPLICE_INFO_(TypeTagName, __VA_ARGS__)                    \
     }                                                               \
@@ -298,7 +300,7 @@ namespace Properties {
  *    // property is defined on. Note that blabbProb does not need to
  *    // be defined on FooTypeTag, but can also be defined for some
  *    // derived type tag.
- *    typedef typename GET_PROP(TypeTag, blabbProp) blabb;
+ *    using blabb = typename GET_PROP(TypeTag, blabbProp);
  *
  *    static int calculateInternal_(int arg)
  *    { return arg * blabb::value; };
@@ -359,7 +361,7 @@ namespace Properties {
               PropTagName,                                      \
               /*value=*/__VA_ARGS__)                            \
     {                                                           \
-        typedef int type;                                       \
+        using type = int;                                       \
         static const int value = __VA_ARGS__;                   \
     }
 
@@ -375,7 +377,7 @@ namespace Properties {
               PropTagName,                                          \
               /*value=*/__VA_ARGS__)                                \
     {                                                               \
-        typedef bool type;                                          \
+        using type = bool;                                          \
         static const bool value = __VA_ARGS__;                      \
     }
 
@@ -391,7 +393,7 @@ namespace Properties {
               PropTagName,                                        \
               /*value=*/__VA_ARGS__)                              \
     {                                                             \
-        typedef __VA_ARGS__ type;                                 \
+        using type = __VA_ARGS__;                                 \
     }
 
 /*!
@@ -432,9 +434,9 @@ namespace Properties {
               PropTagName,                                              \
               /*value=*/__VA_ARGS__)                                    \
     {                                                                   \
-        typedef typename GET_PROP_TYPE(TypeTag, Scalar) Scalar;         \
+        using Scalar = typename GET_PROP_TYPE(TypeTag, Scalar);         \
     public:                                                             \
-        typedef Scalar type;                                            \
+        using type = Scalar;                                            \
         static const Scalar value;                                      \
     };                                                                  \
     PROP_STATIC_CONST_MEMBER_DEFINITION_PREFIX_(EffTypeTagName, PropTagName)::value(__VA_ARGS__)
@@ -453,7 +455,7 @@ namespace Properties {
               /*value=*/__VA_ARGS__)                                    \
     {                                                                   \
     public:                                                             \
-        typedef std::string type;                                       \
+        using type = std::string;                                       \
         static const std::string value;                                 \
     };                                                                  \
     PROP_STATIC_CONST_MEMBER_DEFINITION_PREFIX_(EffTypeTagName, PropTagName)::value(__VA_ARGS__)
@@ -470,7 +472,7 @@ namespace Properties {
               PropTagName,                                        \
               /*value=*/TTAG(ValueTypeTagName))                   \
     {                                                             \
-        typedef TTAG(ValueTypeTagName) type;                      \
+        using type = TTAG(ValueTypeTagName);                      \
     }
 
 /*!
@@ -482,10 +484,10 @@ namespace Properties {
  * the '\c typename' keyword.
  */
 #define GET_PROP(TypeTag, PropTagName) \
-    ::Ewoms::Properties::GetProperty_<TypeTag, PTAG(PropTagName)>
+    ::__EwomsProperties__::GetProperty_<TypeTag, PTAG(PropTagName)>
 //!\cond SKIP_THIS
 #define GET_PROP_(TypeTag, PropTag) \
-    ::Ewoms::Properties::GetProperty_<TypeTag, PropTag>
+    ::__EwomsProperties__::GetProperty_<TypeTag, PropTag>
 //!\endcond
 
 /*!
@@ -497,10 +499,10 @@ namespace Properties {
  * have an attribute named \c value, this yields a compiler error.
  */
 #define GET_PROP_VALUE(TypeTag, PropTagName)                            \
-    ::Ewoms::Properties::GetProperty_<TypeTag, PTAG(PropTagName)>::value
+    ::__EwomsProperties__::GetProperty_<TypeTag, PTAG(PropTagName)>::value
 //!\cond SKIP_THIS
 #define GET_PROP_VALUE_(TypeTag, PropTag)                               \
-    ::Ewoms::Properties::GetProperty_<TypeTag, PropTag>::value
+    ::__EwomsProperties__::GetProperty_<TypeTag, PropTag>::value
 //!\endcond
 
 /*!
@@ -514,10 +516,10 @@ namespace Properties {
  * the \c typename keyword.
  */
 #define GET_PROP_TYPE(TypeTag, PropTagName) \
-    ::Ewoms::Properties::GetPropertyType_<TypeTag, PTAG(PropTagName)>
+    ::__EwomsProperties__::GetPropertyType_<TypeTag, PTAG(PropTagName)>
 //!\cond SKIP_THIS
 #define GET_PROP_TYPE_(TypeTag, PropTag) \
-    ::Ewoms::Properties::GetPropertyType_<TypeTag, PropTag>
+    ::__EwomsProperties__::GetPropertyType_<TypeTag, PropTag>
 //!\endcond
 
 #if !defined NO_PROPERTY_INTROSPECTION
@@ -539,7 +541,7 @@ namespace Properties {
  * \endcode
  */
 #define PROP_DIAGNOSTIC(TypeTag, PropTagName) \
-    ::Ewoms::Properties::getDiagnostic<TypeTag>(#PropTagName)
+    ::__EwomsProperties__::getDiagnostic<TypeTag>(#PropTagName)
 
 #else
 #define PROP_DIAGNOSTIC(TypeTag, PropTagName) "Property introspection disabled by macro NO_PROPERTY_INTROSPECTION."
@@ -644,11 +646,11 @@ public:
         std::string name_;
     };
 
-    typedef std::list<std::unique_ptr<SpliceRegistryEntry> > SpliceList;
-    typedef std::map<std::string, SpliceList> SpliceListMap;
+    using SpliceList = std::list<std::unique_ptr<SpliceRegistryEntry> >;
+    using SpliceListMap = std::map<std::string, SpliceList>;
 
-    typedef std::list<std::string> ChildrenList;
-    typedef std::map<std::string, ChildrenList> ChildrenListMap;
+    using ChildrenList = std::list<std::string>;
+    using ChildrenListMap = std::map<std::string, ChildrenList>;
 
     // this method adds the children of a type tag to the registry if the registry does
     // not yet contain an entry for that type tag
@@ -731,11 +733,11 @@ private:
 
 class PropertyRegistry
 {
-    typedef Ewoms::Properties::TypeTagRegistry TypeTagRegistry;
+    using TypeTagRegistry = ::__EwomsProperties__::TypeTagRegistry;
 
 public:
-    typedef std::map<std::string, PropertyRegistryKey> KeyList;
-    typedef std::map<std::string, KeyList> KeyListMap;
+    using KeyList = std::map<std::string, PropertyRegistryKey>;
+    using KeyListMap = std::map<std::string, KeyList>;
 
     static void addKey(const PropertyRegistryKey& key)
     {
@@ -758,7 +760,7 @@ public:
             return propIt->second.propertyValue();
 
         // ..., if not, check all splices,  ...
-        typedef typename TypeTagRegistry::SpliceList SpliceList;
+        using SpliceList = typename TypeTagRegistry::SpliceList;
         const SpliceList& splices = TypeTagRegistry::splices(typeTagName);
         SpliceList::const_iterator spliceIt = splices.begin();
         for (; spliceIt != splices.end(); ++spliceIt) {
@@ -775,7 +777,7 @@ public:
         }
 
         // .. if still not, check all normal children.
-        typedef TypeTagRegistry::ChildrenList ChildrenList;
+        using ChildrenList = TypeTagRegistry::ChildrenList;
         const ChildrenList& children = TypeTagRegistry::children(typeTagName);
         ChildrenList::const_iterator ttagIt = children.begin();
         for (; ttagIt != children.end(); ++ttagIt) {
@@ -886,12 +888,12 @@ private:
     {
         template<typename... Tail>
         struct RevertedTupleInner {
-            typedef std::tuple<All...> type;
+            using type = std::tuple<All...>;
         };
     };
 
 public:
-    typedef typename RevertedTupleOuter<sizeof...(Args)>::template RevertedTupleInner<Args...>::type type;
+    using type = typename RevertedTupleOuter<sizeof...(Args)>::template RevertedTupleInner<Args...>::type;
 };
 
 template <class SelfT,
@@ -899,9 +901,9 @@ template <class SelfT,
 class TypeTag
 {
 public:
-    typedef SelfT SelfType;
+    using SelfType = SelfT;
 
-    typedef typename RevertedTuple<Children...>::type ChildrenTuple;
+    using ChildrenTuple = typename RevertedTuple<Children...>::type;
     static const bool isLeaf = std::is_same<ChildrenTuple, std::tuple<> >::value;
 };
 
@@ -911,7 +913,7 @@ namespace PTag {
 template <class TypeTag>
 struct Splices
 {
-    typedef typename std::tuple<> tuple;
+    using tuple = typename std::tuple<>;
 };
 } // namespace PTag
 
@@ -924,7 +926,7 @@ struct GetProperty
                                         CurTree,
                                         PropertyTag>::value>
     struct GetEffectiveTypeTag_
-    { typedef typename CurTree::SelfType type; };
+    { using type = typename CurTree::SelfType; };
 
     template <class ...Elements>
     struct SearchTypeTagList_;
@@ -942,15 +944,15 @@ struct GetProperty
     // defined
     template <class TypeTagTuple>
     struct SearchTypeTagTuple_
-    { typedef void type; };
+    { using type = void; };
 
     template <class ...TypeTagList>
     struct SearchTypeTagTuple_<std::tuple<TypeTagList...> >
-    { typedef typename SearchTypeTagList_<TypeTagList...>::type type; };
+    { using type = typename SearchTypeTagList_<TypeTagList...>::type; };
 
     template <class ...Elements>
     struct SearchTypeTagList_
-    { typedef void type; };
+    { using type = void; };
 
     template <class FirstElement, class ...RemainingElements>
     struct SearchTypeTagList_<FirstElement, RemainingElements...>
@@ -962,25 +964,25 @@ struct GetProperty
 
     template <class EffectiveTypeTag, class ...Elements>
     struct SearchTypeTagList_FirstThenRemaining_
-    { typedef EffectiveTypeTag type; };
+    { using type = EffectiveTypeTag; };
 
     template <class ...RemainingElements>
     struct SearchTypeTagList_FirstThenRemaining_<void, RemainingElements...>
-    { typedef typename SearchTypeTagList_<RemainingElements...>::type type; };
+    { using type = typename SearchTypeTagList_<RemainingElements...>::type; };
 
     // find the first type tag in a tuple of splices for which the
     // property is defined
     template <class SpliceTuple>
     struct SearchSpliceTuple_
-    { typedef void type; };
+    { using type = void; };
 
     template <class ...SpliceList>
     struct SearchSpliceTuple_<std::tuple<SpliceList...> >
-    { typedef typename SearchSpliceList_<SpliceList...>::type type; };
+    { using type = typename SearchSpliceList_<SpliceList...>::type; };
 
     template <class ...SpliceList>
     struct SearchSpliceList_
-    { typedef void type; };
+    { using type = void; };
 
     template <class FirstSplice, class ...RemainingSplices>
     struct SearchSpliceList_<FirstSplice, RemainingSplices...>
@@ -992,28 +994,28 @@ struct GetProperty
 
     template <class EffectiveTypeTag, class ...Splices>
     struct SearchSpliceList_FirstThenRemaining_
-    { typedef EffectiveTypeTag type; };
+    { using type = EffectiveTypeTag; };
 
     template <class ...RemainingSplices>
     struct SearchSpliceList_FirstThenRemaining_<void, RemainingSplices...>
-    { typedef typename SearchSpliceList_<RemainingSplices...>::type type; };
+    { using type = typename SearchSpliceList_<RemainingSplices...>::type; };
 
     // find the splice or the child type tag for which the property is defined
     template <class CurTree,
               class SpliceTypeTag = typename SearchSpliceTuple_< typename PTag::Splices<CurTree>::tuple >::type >
     struct SearchSplicesThenChildren_
-    { typedef SpliceTypeTag type; };
+    { using type = SpliceTypeTag; };
 
     template <class CurTree>
     struct SearchSplicesThenChildren_<CurTree, void>
-    { typedef typename SearchTypeTagTuple_<typename CurTree::ChildrenTuple>::type type; };
+    { using type = typename SearchTypeTagTuple_<typename CurTree::ChildrenTuple>::type; };
 
     template <class CurTree>
     struct GetEffectiveTypeTag_<CurTree, /*directlyDefined = */false>
-    { typedef typename SearchSplicesThenChildren_<CurTree>::type type; };
+    { using type = typename SearchSplicesThenChildren_<CurTree>::type; };
 
 public:
-    typedef Property<TypeTag, typename GetEffectiveTypeTag_<TypeTag>::type, PropertyTag> p;
+    using p = Property<TypeTag, typename GetEffectiveTypeTag_<TypeTag>::type, PropertyTag>;
 };
 
 #if !defined NO_PROPERTY_INTROSPECTION
@@ -1037,7 +1039,7 @@ inline std::string canonicalTypeTagNameToName_(const std::string& canonicalName)
 inline std::string canonicalTypeTagNameToName_(const std::string& canonicalName)
 {
     std::string result(canonicalName);
-    myReplaceAll_(result, "Ewoms::Properties::TTag::", "TTAG(");
+    myReplaceAll_(result, "__EwomsProperties__::TTag::", "TTAG(");
     myReplaceAll_(result, "::", "");
     result += ")";
     return result;
@@ -1072,7 +1074,7 @@ inline bool getDiagnostic_(const std::string& typeTagName,
     }
 
     // print properties defined on children
-    typedef typename TypeTagRegistry::ChildrenList ChildrenList;
+    using ChildrenList = typename TypeTagRegistry::ChildrenList;
     const ChildrenList& children = TypeTagRegistry::children(typeTagName);
     ChildrenList::const_iterator ttagIt = children.begin();
     std::string newIndent = indent + "  ";
@@ -1096,7 +1098,7 @@ const std::string getDiagnostic(std::string propTagName)
     propTagName.replace(0, strlen("PTag("), "");
     auto n = propTagName.length();
     propTagName.replace(n - 1, 1, "");
-    //TypeTagName.replace(0, strlen("Ewoms::Properties::TTag::"), "");
+    //TypeTagName.replace(0, strlen("__EwomsProperties__::TTag::"), "");
 
     return result;
 }
@@ -1135,10 +1137,10 @@ inline void print_(const std::string& rootTypeTagName,
         if (key.propertyKind() != "opaque") {
             std::string s(key.propertyValue());
             myReplaceAll_(s, "typename ", "");
-            if (myReplaceAll_(s, "::Ewoms::Properties::TTag::", "TTAG("))
+            if (myReplaceAll_(s, "::__EwomsProperties__::TTag::", "TTAG("))
                 s += ')';
-            myReplaceAll_(s, "::Ewoms::Properties::PTag::", "");
-            myReplaceAll_(s, "::Ewoms::Properties::GetProperty<", "GET_PROP(");
+            myReplaceAll_(s, "::__EwomsProperties__::PTag::", "");
+            myReplaceAll_(s, "::__EwomsProperties__::GetProperty<", "GET_PROP(");
             myReplaceAll_(s, ">::p::", ")::");
             myReplaceAll_(s, "GET_PROP(TypeTag, Scalar)::type", "Scalar");
 
@@ -1155,7 +1157,7 @@ inline void print_(const std::string& rootTypeTagName,
     std::string newIndent = indent + "  ";
 
     // first, iterate over the splices, ...
-    typedef TypeTagRegistry::SpliceList SpliceList;
+    using SpliceList = TypeTagRegistry::SpliceList;
     const SpliceList& splices = TypeTagRegistry::splices(curTypeTagName);
     SpliceList::const_iterator spliceIt = splices.begin();
     for (; spliceIt != splices.end(); ++ spliceIt) {
@@ -1165,7 +1167,7 @@ inline void print_(const std::string& rootTypeTagName,
     }
 
     // ... then, over the children
-    typedef typename TypeTagRegistry::ChildrenList ChildrenList;
+    using ChildrenList = typename TypeTagRegistry::ChildrenList;
     const ChildrenList& children = TypeTagRegistry::children(curTypeTagName);
     ChildrenList::const_iterator ttagIt = children.begin();
     for (; ttagIt != children.end(); ++ttagIt) {
@@ -1204,7 +1206,6 @@ const std::string getDiagnostic(std::string propTagName)
 
 //! \endcond
 
-} // namespace Properties
-} // namespace Ewoms
+} // namespace __EwomsProperties__
 
 #endif
