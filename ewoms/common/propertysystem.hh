@@ -300,7 +300,7 @@ namespace __EwomsProperties__ {
  *    // property is defined on. Note that blabbProb does not need to
  *    // be defined on FooTypeTag, but can also be defined for some
  *    // derived type tag.
- *    using blabb = typename GET_PROP(TypeTag, blabbProp);
+ *    using blabb = GET_PROP(TypeTag, blabbProp);
  *
  *    static int calculateInternal_(int arg)
  *    { return arg * blabb::value; };
@@ -434,7 +434,7 @@ namespace __EwomsProperties__ {
               PropTagName,                                              \
               /*value=*/__VA_ARGS__)                                    \
     {                                                                   \
-        using Scalar = typename GET_PROP_TYPE(TypeTag, Scalar);         \
+        using Scalar = GET_PROP_TYPE(TypeTag, Scalar);                  \
     public:                                                             \
         using type = Scalar;                                            \
         static const Scalar value;                                      \
