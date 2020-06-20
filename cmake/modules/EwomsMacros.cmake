@@ -428,7 +428,7 @@ function(ewoms_recursive_add_internal_library LIBNAME)
   set(TMP2 "")
 
   set(CD "")
-  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+  if ("${CMAKE_VERSION_MAJOR}" GREATER "3" OR ("${CMAKE_VERSION_MAJOR}" EQUAL "3" AND "${CMAKE_VERSION_MINOR}" GREATER "11"))
     set(CD "CONFIGURE_DEPENDS")
   endif()
     
@@ -444,7 +444,7 @@ function(ewoms_recursive_add_library LIBNAME)
   set(TMP2 "")
 
   set(CD "")
-  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+  if ("${CMAKE_VERSION_MAJOR}" GREATER "3" OR ("${CMAKE_VERSION_MAJOR}" EQUAL "3" AND "${CMAKE_VERSION_MINOR}" GREATER "11"))
     set(CD "CONFIGURE_DEPENDS")
   endif()
 
@@ -514,7 +514,7 @@ endfunction()
 
 function(ewoms_recusive_copy_testdata)
   set(CD "")
-  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+  if ("${CMAKE_VERSION_MAJOR}" GREATER "3" OR ("${CMAKE_VERSION_MAJOR}" EQUAL "3" AND "${CMAKE_VERSION_MINOR}" GREATER "11"))
     set(CD "CONFIGURE_DEPENDS")
   endif()
 
@@ -537,7 +537,7 @@ endfunction()
 
 function(ewoms_recusive_copy_testdata_to_builddir)
   set(CD "")
-  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+  if ("${CMAKE_VERSION_MAJOR}" GREATER "3" OR ("${CMAKE_VERSION_MAJOR}" EQUAL "3" AND "${CMAKE_VERSION_MINOR}" GREATER "11"))
     set(CD "CONFIGURE_DEPENDS")
   endif()
 
@@ -560,7 +560,7 @@ endfunction()
 
 function(ewoms_recusive_export_all_headers)
   set(CD "")
-  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+  if ("${CMAKE_VERSION_MAJOR}" GREATER "3" OR ("${CMAKE_VERSION_MAJOR}" EQUAL "3" AND "${CMAKE_VERSION_MINOR}" GREATER "11"))
     set(CD "CONFIGURE_DEPENDS")
   endif()
 
@@ -576,7 +576,7 @@ endfunction()
 
 function(ewoms_export_cmake_modules)
   set(CD "")
-  if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12")
+  if ("${CMAKE_VERSION_MAJOR}" GREATER "3" OR ("${CMAKE_VERSION_MAJOR}" EQUAL "3" AND "${CMAKE_VERSION_MINOR}" GREATER "11"))
     set(CD "CONFIGURE_DEPENDS")
   endif()
 

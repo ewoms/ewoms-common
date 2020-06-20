@@ -77,8 +77,12 @@ constexpr bool holds_alternative__()
 { return false; }
 
 template <class T, class U0, class ...U>
+constexpr bool holds_alternative__()
+{ return std::is_same<T, U0>::value || holds_alternative__<T, U...>(); }
+
+template <class T, class ...U>
 constexpr bool holds_alternative(const variant<U...>& v)
-{ return std::is_same<T, U0>::value || holds_alternative__(T, U...); }
+{ return holds_alternative__<T, U...>(); }
 
 template <int i, class ...U>
 auto get(variant<U...>& v)
