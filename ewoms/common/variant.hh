@@ -36,32 +36,68 @@ namespace Ewoms
 template <class ...T>
 using variant = std::variant<T...>;
 
+template <class ...T>
+int variantIndex(const variant<T...> v)
+{ return v.index(); }
+
 template <class T, class ...U>
 constexpr bool holds_alternative(const variant<U...>& v)
 { return std::holds_alternative<T>(v); }
 
+template <int i, class ...U>
+auto get(variant<U...>& v)
+    -> decltype(std::get<i>(v))
+{ return std::get<i>(v); }
+
+template <int i, class ...U>
+auto get(const variant<U...>& v)
+    -> decltype(std::get<i>(v))
+{ return std::get<i>(v); }
+
 template <class T, class ...U>
-const T& get(const variant<U...>& v)
+auto get(variant<U...>& v)
+    -> decltype(std::get<T>(v))
 { return std::get<T>(v); }
 
 template <class T, class ...U>
-T& get(variant<U...>& v)
+auto get(const variant<U...>& v)
+    -> decltype(std::get<T>(v))
 { return std::get<T>(v); }
 
 #elif HAVE_BOOST_VARIANT
 template <class ...T>
 using variant = boost::variant<T...>;
 
-template <class T, class ...U>
+template <class ...T>
+int variantIndex(const variant<T...> v)
+{ return v.which(); }
+
+template <class T>
+constexpr bool holds_alternative__()
+{ return false; }
+
+template <class T, class U0, class ...U>
 constexpr bool holds_alternative(const variant<U...>& v)
-{ return v.type() == typeid(T); }
+{ return std::is_same<T, U0>::value || holds_alternative__(T, U...); }
+
+template <int i, class ...U>
+auto get(variant<U...>& v)
+    -> decltype(boost::get<i>(v))
+{ return boost::get<i>(v); }
+
+template <int i, class ...U>
+auto get(const variant<U...>& v)
+    -> decltype(boost::get<i>(v))
+{ return boost::get<i>(v); }
 
 template <class T, class ...U>
-const T& get(const variant<U...>& v)
+auto get(variant<U...>& v)
+    -> decltype(boost::get<T>(v))
 { return boost::get<T>(v); }
 
 template <class T, class ...U>
-T& get(variant<U...>& v)
+auto get(const variant<U...>& v)
+    -> decltype(boost::get<T>(v))
 { return boost::get<T>(v); }
 
 #endif
