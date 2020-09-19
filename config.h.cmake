@@ -39,6 +39,9 @@
 /* Define to the revision of ewoms-common */
 #define EWOMS_COMMON_VERSION_REVISION ${EWOMS_COMMON_VERSION_REVISION}
 
+/* ensure that the {fmt} library is header-only */
+#define FMT_HEADER_ONLY 1
+
 /* Define whether valgrind is available */
 #cmakedefine HAVE_VALGRIND 1
 
