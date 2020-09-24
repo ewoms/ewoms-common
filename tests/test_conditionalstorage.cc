@@ -31,6 +31,7 @@
 #include <ewoms/common/unused.hh>
 #include <ewoms/common/conditionalstorage.hh>
 
+#include <stdexcept>
 #include <string>
 #include <cstdlib>
 #include <type_traits>

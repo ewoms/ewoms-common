@@ -28,9 +28,8 @@
 #ifndef EWOMS_CONDITIONAL_STORAGE_HH
 #define EWOMS_CONDITIONAL_STORAGE_HH
 
-#include <ewoms/common/exceptions.hh>
+#include <stdexcept>
 #include <ewoms/common/unused.hh>
-
 #include <utility>
 
 namespace Ewoms {

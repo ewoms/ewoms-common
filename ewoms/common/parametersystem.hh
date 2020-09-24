@@ -34,7 +34,6 @@
 
 #include <ewoms/common/propertysystem.hh>
 
-#include <ewoms/common/exceptions.hh>
 #include <ewoms/common/unused.hh>
 
 #if HAVE_QUAD
