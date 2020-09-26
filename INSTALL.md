@@ -29,13 +29,13 @@ alternative to building and installing DUNE manually. For Debian-based
 distributions like e.g. Ubuntu, the DUNE dependencies can be installed
 using
 
-  sudo apt install libdune-grid-dev libdune-istl-dev libdune-localfunctions-dev
+    sudo apt install libdune-grid-dev libdune-istl-dev libdune-localfunctions-dev
 
 Before installing DUNE the appropriate package repositories must be
 enabled. For Debian nothing is required, for Ubuntu the universe
 repository must be enabled using
 
-  sudo apt-add-repository universe
+    sudo apt-add-repository universe
 
 The base functionality of eWoms is provided by the following modules
 
@@ -63,7 +63,7 @@ ought to be used -- the ZOLTAN graph partitioning libraries from the
 TRILINOS project. On Debian-based distributions, these dependencies
 can be installed using
 
-  sudo apt install libboost-all-dev trilinos-all-dev
+    sudo apt install libboost-all-dev trilinos-all-dev
 
 Building
 --------
@@ -78,25 +78,25 @@ particular needs before you start the build.
 After the prerequisites have been dealt with, you can compile any
 eWoms module using
 
-  cd $EWOMS_BASE_SOURCE_DIR
-  cp ewoms-common/optim.opts .
-  ### edit optim.opts
-  $PATH_TO_DUNECONTROL/dunecontrol --opts=optim.opts --module=ewoms-$MODULE all
+    cd $EWOMS_BASE_SOURCE_DIR
+    cp ewoms-common/optim.opts .
+    ### edit optim.opts
+    $PATH_TO_DUNECONTROL/dunecontrol --opts=optim.opts --module=ewoms-$MODULE all
 
 Depending on the dunecontrol option file used, the test simulators
 might not be compiled by default in order to speed up the build
 process. If you want to force a given test simulator to be compiled,
 use e.g.,
 
-  cd $EWOMS_BASE_SOURCE_DIR/ewoms-numerics/build-cmake
-  make lens_immiscible_ecfv_ad
+    cd $EWOMS_BASE_SOURCE_DIR/ewoms-numerics/build-cmake
+    make lens_immiscible_ecfv_ad
 
 to compile the `lens_immiscible_ecfv_ad` executable provided by the
 ewoms-numerics module. Unconditionally compiling all available tests
 of a module can be achieved via
 
-  cd $EWOMS_BASE_SOURCE_DIR/ewoms-$MODULE/build-cmake
-  make all_tests
+    cd $EWOMS_BASE_SOURCE_DIR/ewoms-$MODULE/build-cmake
+    make all_tests
 
 
 Installing
@@ -106,8 +106,8 @@ If you merely want to use some parts eWoms -- i.e., if you are not
 interested in modifying them -- you can install the modules of your
 non-interest globally on your system using the following commands:
 
-  cd $EWOMS_BASE_SOURCE_DIR/ewoms-$MODULE/build-cmake
-  sudo make install
+    cd $EWOMS_BASE_SOURCE_DIR/ewoms-$MODULE/build-cmake
+    sudo make install
 
 Be aware that you can specify the target directory for the
 installation process by adding `-DCMAKE_INSTALL_PREFIX=$TARGET_DIR` to
@@ -124,21 +124,21 @@ use them, it is usually sufficient to simply run the binary of
 interest from the command line without any arguments. For example, to
 run the `lens_immiscible_ecfv_ad` test simulator mentioned above, type
 
-  cd $EWOMS_SOURCE_DIR/ewoms-numerics/build-cmake
-  ./bin/lens_immiscible_ecfv_ad
+    cd $EWOMS_SOURCE_DIR/ewoms-numerics/build-cmake
+    ./bin/lens_immiscible_ecfv_ad
 
 This produces a sequence of VTK files in the current directory which
 can be visualized using -- for example -- ParaView [3]:
 
-  paraview --data=lens_immiscible_ecfv_ad.pvd
+    paraview --data=lens_immiscible_ecfv_ad.pvd
 
 You may also specify command line parameters to alter the behavior of
 the simulation. The list of recognized parameters and their
 descriptions can usually be obtained via the '--help' command line
 argument, e.g.,
 
-  cd $EWOMS_SOURCE_DIR/build-cmake
-  ./bin/lens_immiscible_ecfv_ad --help
+    cd $EWOMS_SOURCE_DIR/build-cmake
+    ./bin/lens_immiscible_ecfv_ad --help
 
 
 Links
