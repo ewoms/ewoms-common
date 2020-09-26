@@ -19,12 +19,11 @@
 #ifndef EWOMS_ROOTFINDERS_HEADER
 #define EWOMS_ROOTFINDERS_HEADER
 
-#include <ewoms/eclio/errormacros.hh>
-
 #include <algorithm>
 #include <limits>
 #include <cmath>
 #include <iostream>
+#include <stdexcept>
 
 namespace Ewoms
 {
@@ -33,15 +32,17 @@ namespace Ewoms
     {
         static double handleBracketingFailure(const double x0, const double x1, const double f0, const double f1)
         {
-            EWOMS_THROW(std::runtime_error, "Error in parameters, zero not bracketed: [a, b] = ["
-                  << x0 << ", " << x1 << "]    f(a) = " << f0 << "   f(b) = " << f1);
+            throw std::runtime_error("Error in parameters, zero not bracketed: [a, b] = ["
+                                     +std::to_string(x0)+", "+std::to_string(x1)+"]    f(a) = "
+                                     +std::to_string(f0)+"   f(b) = "+std::to_string(f1));
             return -1e100; // Never reached.
         }
         static double handleTooManyIterations(const double x0, const double x1, const int maxiter)
         {
-            EWOMS_THROW(std::runtime_error, "Maximum number of iterations exceeded: " << maxiter << "\n"
-                  << "Current interval is [" << std::min(x0, x1) << ", "
-                  << std::max(x0, x1) << "] abs(x0-x1) " << std::abs(x0-x1));
+            throw std::runtime_error("Maximum number of iterations exceeded: "+std::to_string(maxiter)+"\n"
+                                     "Current interval is ["+std::to_string(std::min(x0, x1))+", "
+                                     +std::to_string(std::max(x0, x1))+"] abs(x0-x1) "
+                                     +std::to_string(std::abs(x0-x1)));
             return -1e100; // Never reached.
         }
     };
@@ -50,7 +51,6 @@ namespace Ewoms
     {
         static double handleBracketingFailure(const double x0, const double x1, const double f0, const double f1)
         {
-            EWOMS_REPORT;
             std::cerr << "Error in parameters, zero not bracketed: [a, b] = ["
                       << x0 << ", " << x1 << "]    f(a) = " << f0 << "   f(b) = " << f1
                       << "";
@@ -58,7 +58,6 @@ namespace Ewoms
         }
         static double handleTooManyIterations(const double x0, const double x1, const int maxiter)
         {
-            EWOMS_REPORT;
             std::cerr << "Maximum number of iterations exceeded: " << maxiter
                       << ", current interval is [" << std::min(x0, x1) << ", "
                       << std::max(x0, x1) << "]  abs(x0-x1) " << std::abs(x0-x1);
@@ -405,7 +404,7 @@ namespace Ewoms
             cur_dx = -2.0*cur_dx;
         }
         if (i == max_iters) {
-            EWOMS_THROW(std::runtime_error, "Could not bracket zero in " << max_iters << "iterations.");
+            throw std::runtime_error("Could not bracket zero in "+std::to_string(max_iters)+"iterations.");
         }
         if (cur_dx < 0.0) {
             a = x0 + cur_dx;
