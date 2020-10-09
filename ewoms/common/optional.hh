@@ -36,10 +36,12 @@ namespace Ewoms
     template <class T>
     using optional = std::optional<T>;
     constexpr auto nullopt = std::nullopt;
+    using bad_optional_access = std::bad_optional_access;
 #elif HAVE_STD_EXPERIMENTAL_OPTIONAL
     template <class T>
     using optional = std::experimental::optional<T>;
     constexpr auto nullopt = std::experimental::nullopt;
+    using bad_optional_access = std::experimental::bad_optional_access;
 #endif
 } // namespace Ewoms
 
