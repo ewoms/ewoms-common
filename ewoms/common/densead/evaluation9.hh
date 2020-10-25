@@ -31,6 +31,15 @@
 #ifndef EWOMS_DENSEAD_EVALUATION9_HH
 #define EWOMS_DENSEAD_EVALUATION9_HH
 
+// tell the compilers to not complain about array bounds for the individual element types
+// (everything which is accessed at runtime is properly initialized, there sometimes is just
+// no way for a compiler that does not pass the Turing test to verify this at compile time...)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 #include "evaluation.hh"
 #include "math.hh"
 
