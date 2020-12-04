@@ -51,7 +51,7 @@ int main(void){
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(StdString_view
+find_package_handle_standard_args(StdStringView
   DEFAULT_MSG
   STD_STRING_VIEW_FOUND
   )
